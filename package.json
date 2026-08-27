@@ -1,0 +1,19 @@
+{
+  "name": "apex-vr",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Reusable VR AI-agent primitives for Three.js / React Three Fiber / WebXR.",
+  "packageManager": "pnpm@10.28.2",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "pnpm --filter @apex-vr/agents build",
+    "check": "pnpm --filter @apex-vr/agents check",
+    "dev": "pnpm --filter @apex-vr/agents build --watch",
+    "test": "pnpm --filter @apex-vr/agents test"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
