@@ -25,7 +25,7 @@ test("embodiment fixtures match checksums.json", () => {
   ) as { algorithm: string; files: Record<string, string> };
   assert.equal(checksums.algorithm, "sha256");
   for (const [file, expected] of Object.entries(checksums.files)) {
-    const body = readFileSync(join(fixtureDir, file));
+    const body = readFileSync(join(fixtureDir, file), "utf8").replaceAll("\r\n", "\n");
     const actual = createHash("sha256").update(body).digest("hex");
     assert.equal(actual, expected, file);
   }
