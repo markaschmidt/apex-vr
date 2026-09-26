@@ -161,7 +161,10 @@ Validate with `AgentIntentSchema` before accepting network or voice payloads.
 | --- | --- |
 | `set_phase` | Drive lifecycle and the default clip |
 | `say` | Store an utterance; optionally enter `speaking` |
-| `move_to` | Walk toward a world point; `AgentNPC` interpolates |
+| `attend` | Semantic focus: pane ids in, host resolves anchors |
+| `execute_plan` | Versioned network plan (`attend` / `focus_target` / capability-gated `gesture`) |
+| `cancel_plan` | Drop in-flight plan and locomotion |
+| `move_to` | Local walk toward a world point (never on the Vektral wire) |
 | `play_clip` | Force a named animation |
 | `focus_target` | Point at a pane / object id |
 | `set_busy` | Work indicator + `work` clip (deferred while walking) |
@@ -277,13 +280,11 @@ A longer maintainer walkthrough of the primitive stack will be published here.
 
 Honest split. The contract is real; the cathedral is not done.
 
-| Now (0.1) | Next | Further out |
+| Now (0.2) | Next | Further out |
 | --- | --- | --- |
-| `AgentController` + Zod intents + snapshots | Published npm package `@apex-vr/agents` | Multi-agent floor control in one room |
-| Procedural capsule avatar + phase colors | VRM loader + Mixamo retarget helpers | Look-at, gesture, and proxemics as intents |
-| glTF clip aliases + `AgentNPC` locomotion | Yjs-friendly presence hooks | Cross-app agent passports (bring Nova into any world) |
-| OpenRouter `ModelRouter` | MCP tool to `AgentIntent` adapters | Spatial tool use you can *see* (walk, point, confirm) |
-| Work indicator + `set_busy` | Host-agnostic approval token type | Future-of-work profiles: standup, review, incident, studio |
+| `AgentController` + `PlanSequencer` + Zod v2 plans | Published npm package `@apex-vr/agents` | Multi-agent floor control in one room |
+| Presence APIs that do not abort walks | Host-agnostic approval token type | Spatial tool use you can *see* (walk, point, confirm) |
+| VRM look-at + capability-gated gestures | Navmesh / collision (host) | Cross-app agent passports (bring Nova into any world) |
 
 The bet: **XR does not need another engine**. It needs a small, boring, typed layer that voice, models, MCP, and avatars can all agree on — the way web apps eventually agreed on HTTP. APEX-VR is that layer, started in public.
 

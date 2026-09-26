@@ -1,0 +1,15 @@
+{
+  "type": "execute_plan",
+  "planId": "plan_bad",
+  "revision": 5,
+  "expiresAt": "2099-01-01T00:00:00.000Z",
+  "workspaceId": "ws_1",
+  "actorId": "uid_1",
+  "steps": [
+    {
+      "type": "marionette",
+      "bone": "Head",
+      "position": [1, 2, 3]
+    }
+  ]
+}

@@ -1,7 +1,8 @@
+export { novaLocoLog } from "./debug/locoLog.js";
 export {
   AgentController,
   type AgentControllerOptions,
-} from "./AgentController.js";
+} from "./controllers/index.js";
 export {
   ChatMessageSchema,
   ModelRequestSchema,
@@ -21,9 +22,24 @@ export {
 } from "./avatar/clipMap.js";
 export {
   createRiggedPlayback,
+  createRiggedPlaybackFromClips,
   playRiggedClip,
+  playStandingFidget,
+  RIGGED_CLIP_KINDS,
+  type PlayRiggedClipOptions,
   type RiggedAvatarPlayback,
 } from "./avatar/RiggedAvatar.js";
+export {
+  GESTURE_CLIP_CANDIDATES,
+  GESTURE_NAMES,
+  clipsEquivalent,
+  inspectLoadedClips,
+  resolveGestureClip,
+  supportedGestures,
+  type LoadedClipInfo,
+  type LoadedPlaybackInfo,
+} from "./avatar/gestures.js";
+export { createHumanoidIdleClip } from "./avatar/humanoidIdle.js";
 export {
   PHASE_COLORS,
   proceduralMotion,
@@ -34,7 +50,17 @@ export {
   AgentIntentSchema,
   AgentPhaseSchema,
   AgentPoseSchema,
+  AttendIntentSchema,
+  AvatarCueSchema,
+  CancelPlanIntentSchema,
   DEFAULT_PHASE_CLIPS,
+  ExecutePlanIntentSchema,
+  FocusTargetIntentSchema,
+  GazeHintSchema,
+  GestureIntentSchema,
+  GestureNameSchema,
+  LocomotionSubstateSchema,
+  PRESENCE_PHASES,
   Vec3Schema,
   type AgentClip,
   type AgentIdentity,
@@ -45,5 +71,41 @@ export {
   type AgentPose,
   type AgentSnapshot,
   type AgentWorkIndicator,
+  type AttendIntent,
+  type AvatarCue,
+  type CancelPlanIntent,
+  type ExecutePlanIntent,
+  type FocusTargetIntent,
+  type GazeHint,
+  type GestureIntent,
+  type GestureName,
+  type LocomotionSubstate,
+  type PresencePhase,
   type Vec3,
 } from "./types.js";
+export {
+  BASE_CAPABILITY_IDS,
+  NETWORK_STEP_TYPES,
+  PlanBlockReason,
+  PlanEventStatus,
+  PlanSequencer,
+  apexIntentFromWire,
+  buildRuntimeCapabilities,
+  embodimentDedupeKey,
+  gateExecutePlan,
+  isRemoteIntentType,
+  mapAnchorResolver,
+  parseAgentIntent,
+  parseNetworkStep,
+  planExpired,
+  resolveGazeWorldPoint,
+  resolvePaneIds,
+  selectGazeTargetId,
+  unsupportedCapabilityReason,
+  type AgentRuntimeCapabilities,
+  type AnchorResolver,
+  type NetworkPlanStep,
+  type PaneAnchor,
+  type PlanEvent,
+  type PlanEventListener,
+} from "./embodiment/index.js";

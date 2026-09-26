@@ -1,12 +1,15 @@
+import type { VRM } from "@pixiv/three-vrm";
 import { useFrame } from "@react-three/fiber";
-import React, { Suspense, useEffect, useRef, useState } from "react";
-import type { Group } from "three";
+import React, { Suspense, useCallback, useEffect, useRef, useState } from "react";
+import type { AnimationClip, Group } from "three";
 import { proceduralMotion } from "../avatar/ProceduralAvatar.js";
-import type { AgentController } from "../AgentController.js";
+import type { AgentController } from "../controllers/index.js";
 import type { AgentClip, AgentSnapshot } from "../types.js";
 import { ProceduralAgentMesh } from "./ProceduralAgentMesh.js";
 import { RiggedAgentMesh } from "./RiggedAgentMesh.js";
+import { VrmAgentMesh } from "./VrmAgentMesh.js";
 import { WorkIndicator } from "./WorkIndicator.js";
+import { novaLocoLog } from "../debug/locoLog.js";
 
 export interface AgentNPCProps {
   controller: AgentController;
@@ -16,6 +19,27 @@ export interface AgentNPCProps {
   avatarScale?: number;
   /** Height of the work-indicator badge above the agent root. */
   workIndicatorHeight?: number;
+  /** Host Mixamo (or other) clips retargeted onto the loaded VRM. */
+  loadExternalClips?: (
+    vrm: VRM,
+  ) => Promise<Partial<Record<AgentClip, AnimationClip>>>;
+}
+
+function semanticRenderChanged(a: AgentSnapshot, b: AgentSnapshot): boolean {
+  return (
+    a.clip !== b.clip ||
+    a.phase !== b.phase ||
+    a.presence !== b.presence ||
+    Boolean(a.locomotion) !== Boolean(b.locomotion) ||
+    a.locomotionSubstate !== b.locomotionSubstate ||
+    a.identity.avatarUrl !== b.identity.avatarUrl ||
+    a.workIndicator?.active !== b.workIndicator?.active ||
+    a.workIndicator?.label !== b.workIndicator?.label ||
+    a.gestureName !== b.gestureName ||
+    a.gestureGeneration !== b.gestureGeneration ||
+    a.blockedReason !== b.blockedReason ||
+    a.focusTargetId !== b.focusTargetId
+  );
 }
 
 class RiggedAvatarBoundary extends React.Component<
@@ -39,7 +63,7 @@ class RiggedAvatarBoundary extends React.Component<
 }
 
 /**
- * Drop-in R3F agent. Loads a rigged glTF when `identity.avatarUrl` is set;
+ * Drop-in R3F agent. Loads VRM or rigged glTF when `identity.avatarUrl` is set;
  * otherwise renders the procedural capsule fallback.
  */
 export function AgentNPC({
@@ -47,20 +71,37 @@ export function AgentNPC({
   clipOverrides,
   avatarScale = 0.26,
   workIndicatorHeight = 1.35,
+  loadExternalClips,
 }: AgentNPCProps) {
   const group = useRef<Group>(null);
   const [snapshot, setSnapshot] = useState<AgentSnapshot>(controller.state);
   const [rigFailed, setRigFailed] = useState(false);
+  const onRigError = useCallback(() => setRigFailed(true), []);
 
-  useEffect(() => controller.subscribe(setSnapshot), [controller]);
+  useEffect(() => {
+    return controller.subscribe((next) => {
+      setSnapshot((prev) => {
+        if (!semanticRenderChanged(prev, next)) return prev;
+        novaLocoLog("npc.snapshot", {
+          clip: next.clip,
+          phase: next.phase,
+          presence: next.presence,
+          moving: Boolean(next.locomotion),
+          substate: next.locomotionSubstate,
+          focus: next.focusTargetId,
+          pose: next.pose.position,
+        });
+        return next;
+      });
+    });
+  }, [controller]);
 
   const avatarUrl = snapshot.identity.avatarUrl;
   const useRigged = Boolean(avatarUrl) && !rigFailed;
+  const isVrm = avatarUrl?.toLowerCase().endsWith(".vrm") ?? false;
 
   useFrame(({ clock }, delta) => {
-    if (controller.state.locomotion) {
-      controller.tickLocomotion(delta);
-    }
+    controller.tick(Math.min(delta, 1 / 20));
 
     if (!group.current) return;
     const state = controller.state;
@@ -74,16 +115,29 @@ export function AgentNPC({
   });
 
   return (
-    <group ref={group} position={snapshot.pose.position}>
+    <group ref={group}>
       {useRigged && avatarUrl ? (
         <Suspense fallback={<ProceduralAgentMesh snapshot={snapshot} time={0} />}>
-          <RiggedAvatarBoundary onError={() => setRigFailed(true)}>
-            <RiggedAgentMesh
-              url={avatarUrl}
-              snapshot={snapshot}
-              scale={avatarScale}
-              clipOverrides={clipOverrides}
-            />
+          <RiggedAvatarBoundary onError={onRigError}>
+            {isVrm ? (
+              <VrmAgentMesh
+                url={avatarUrl}
+                snapshot={snapshot}
+                scale={avatarScale}
+                clipOverrides={clipOverrides}
+                loadExternalClips={loadExternalClips}
+                onError={onRigError}
+                controller={controller}
+              />
+            ) : (
+              <RiggedAgentMesh
+                url={avatarUrl}
+                snapshot={snapshot}
+                scale={avatarScale}
+                clipOverrides={clipOverrides}
+                controller={controller}
+              />
+            )}
           </RiggedAvatarBoundary>
         </Suspense>
       ) : (

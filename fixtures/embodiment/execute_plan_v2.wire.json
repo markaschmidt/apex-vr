@@ -1,0 +1,24 @@
+{
+  "type": "embodiment_plan",
+  "plan_id": "plan_v2_wire",
+  "revision": 6,
+  "expires_at": "2099-01-01T00:00:00.000Z",
+  "workspace_id": "ws_1",
+  "actor_id": "uid_1",
+  "steps": [
+    {
+      "type": "attend",
+      "step_id": "s1",
+      "cue": "immediate",
+      "pane_ids": ["pane_a"],
+      "primary_pane_id": "pane_a",
+      "gaze_hint": "primary"
+    },
+    {
+      "type": "focus_target",
+      "step_id": "s2",
+      "cue": "immediate",
+      "target_id": "pane_b"
+    }
+  ]
+}

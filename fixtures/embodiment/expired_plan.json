@@ -1,0 +1,15 @@
+{
+  "type": "execute_plan",
+  "planId": "plan_old",
+  "revision": 2,
+  "expiresAt": "2000-01-01T00:00:00.000Z",
+  "workspaceId": "ws_1",
+  "actorId": "uid_1",
+  "steps": [
+    {
+      "type": "attend",
+      "paneIds": ["pane_a"],
+      "primaryPaneId": "pane_a"
+    }
+  ]
+}

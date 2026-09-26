@@ -1,0 +1,9 @@
+{
+  "type": "attend",
+  "paneIds": ["pane_a", "pane_b"],
+  "primaryPaneId": "pane_a",
+  "phaseHint": "acting",
+  "clipHint": "walk",
+  "gazeHint": "primary",
+  "speechHint": ""
+}

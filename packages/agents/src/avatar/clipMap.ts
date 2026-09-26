@@ -3,30 +3,37 @@ import type { AgentClip } from "../types.js";
 /**
  * Canonical clip names → preferred Mixamo / glTF animation filenames.
  * Keep assets under public/avatars/animations/ in host apps.
+ * Capability advertising must NOT read this map — only loaded mixer actions.
  */
 export const DEFAULT_CLIP_ASSETS: Record<AgentClip, string> = {
-  idle: "Idle.fbx",
-  listen: "Listening.fbx",
+  idle: "idle.fbx",
+  listen: "idle_2.fbx",
   think: "Thinking.fbx",
   talk: "Talking.fbx",
-  walk: "Walking.fbx",
+  walk: "walking.fbx",
   work: "Working.fbx",
   point: "Pointing.fbx",
-  celebrate: "Celebration.fbx",
+  celebrate: "dancing_2.fbx",
   error: "Disappointed.fbx",
+  wave: "standard_greeting.fbx",
+  nod: "head_nod_yes.fbx",
+  present: "happy_hand_gesture.fbx",
 };
 
 /** glTF animation names commonly used in rigged models (case-insensitive match). */
 export const GLTF_CLIP_ALIASES: Record<AgentClip, readonly string[]> = {
   idle: ["idle", "iddle", "Idle", "IDLE"],
-  listen: ["listen", "listening", "Listening"],
+  listen: ["listen", "listening", "Listening", "idle_2", "idle2"],
   think: ["think", "thinking", "Thinking"],
   talk: ["talk", "talking", "Talking", "hello"],
-  walk: ["walk", "walking", "Walking", "walkstart"],
+  walk: ["walk", "walking", "Walking", "walkstart", "walking_start"],
   work: ["work", "working", "grab", "attackwithhand"],
   point: ["point", "pointing", "Pointing"],
-  celebrate: ["celebrate", "celebration", "hello", "jump"],
+  celebrate: ["celebrate", "celebration", "dance", "dancing", "victory", "jump"],
   error: ["error", "disappointed", "sad"],
+  wave: ["wave", "waving", "greeting", "standard_greeting"],
+  nod: ["nod", "nodding", "headnod", "head_nod", "yes"],
+  present: ["present", "presenting", "showcase", "show"],
 };
 
 export function resolveClipAsset(

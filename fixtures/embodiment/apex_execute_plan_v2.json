@@ -1,0 +1,23 @@
+{
+  "type": "execute_plan",
+  "planId": "plan_fixture_001",
+  "revision": 1,
+  "workspaceId": "ws_fixture",
+  "actorId": "uid_fixture",
+  "expiresAt": "2099-01-01T00:00:00.000Z",
+  "steps": [
+    {
+      "type": "attend",
+      "stepId": "s1",
+      "cue": "immediate",
+      "paneIds": ["pane_home"],
+      "primaryPaneId": "pane_home"
+    },
+    {
+      "type": "focus_target",
+      "stepId": "s2",
+      "cue": "immediate",
+      "targetId": "pane_home"
+    }
+  ]
+}

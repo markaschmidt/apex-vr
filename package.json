@@ -1,6 +1,6 @@
 {
   "name": "apex-vr",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Reusable VR AI-agent primitives for Three.js / React Three Fiber / WebXR.",
   "packageManager": "pnpm@10.28.2",
