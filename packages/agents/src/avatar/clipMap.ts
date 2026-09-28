@@ -18,6 +18,7 @@ export const DEFAULT_CLIP_ASSETS: Record<AgentClip, string> = {
   wave: "standard_greeting.fbx",
   nod: "head_nod_yes.fbx",
   present: "happy_hand_gesture.fbx",
+  dance: "dancing_2.fbx",
 };
 
 /** glTF animation names commonly used in rigged models (case-insensitive match). */
@@ -34,6 +35,7 @@ export const GLTF_CLIP_ALIASES: Record<AgentClip, readonly string[]> = {
   wave: ["wave", "waving", "greeting", "standard_greeting"],
   nod: ["nod", "nodding", "headnod", "head_nod", "yes"],
   present: ["present", "presenting", "showcase", "show"],
+  dance: ["dance", "dancing", "dancing_2"],
 };
 
 export function resolveClipAsset(

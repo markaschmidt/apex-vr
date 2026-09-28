@@ -150,6 +150,17 @@ export class AgentController {
     if (actorId !== undefined) this.actorId = actorId;
   }
 
+  /** Swap the embodied VRM. The NPC mesh reloads from `identity.avatarUrl`. */
+  setAvatarUrl(avatarUrl: string): AgentSnapshot {
+    const next = avatarUrl.trim();
+    if (!next || this.snapshot.identity.avatarUrl === next) return this.snapshot;
+    return this.commit({
+      ...this.snapshot,
+      identity: { ...this.snapshot.identity, avatarUrl: next },
+      updatedAt: Date.now(),
+    });
+  }
+
   /**
    * Report actually loaded mixer actions. Never pass Mixamo URL maps.
    * `lookAt: true` only when `vrm.lookAt` is wired.
@@ -727,7 +738,8 @@ export class AgentController {
         stepId: step.stepId,
         stepIndex: this.sequencer.currentIndex,
       });
-      this.startGesture(step.gesture, resolved.name, resolved.duration);
+      const hold = step.gesture === "dance" ? 4.5 : resolved.duration;
+      this.startGesture(step.gesture, resolved.name, hold);
     }
   }
 

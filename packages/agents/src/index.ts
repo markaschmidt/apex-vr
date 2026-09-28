@@ -109,3 +109,20 @@ export {
   type PlanEvent,
   type PlanEventListener,
 } from "./embodiment/index.js";
+export {
+  VOICE_TOOL_ACTIONS,
+  actionResultForAgent,
+  buildWorkspaceState,
+  isVoiceToolAction,
+  postVoiceAction,
+  workspaceStateKind,
+  type ActionResultForAgent,
+  type PostVoiceActionArgs,
+  type VoiceActionResponse,
+  type VoiceClarify,
+  type VoicePaneKind,
+  type VoiceSelection,
+  type VoiceToolAction,
+  type WorkspaceStatePane,
+  type WorkspaceStatePaneInput,
+} from "./voice/voiceAction.js";

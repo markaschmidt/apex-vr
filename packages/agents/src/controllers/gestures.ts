@@ -10,9 +10,10 @@ export function openGesture(input: {
   generation: number;
 }): { active: ActiveGesture; generation: number; snapshot: AgentSnapshot } {
   const generation = input.generation + 1;
+  const cap = input.name === "dance" ? 4.5 : GESTURE_MAX_SEC;
   const remainingSec = Math.min(
     input.duration > 0.05 ? input.duration : GESTURE_DEFAULT_SEC,
-    GESTURE_MAX_SEC,
+    cap,
   );
   const active: ActiveGesture = {
     name: input.name,

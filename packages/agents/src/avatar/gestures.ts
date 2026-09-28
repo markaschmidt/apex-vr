@@ -6,6 +6,7 @@ export const GESTURE_NAMES: readonly GestureName[] = [
   "nod",
   "point",
   "present",
+  "dance",
 ];
 
 /**
@@ -17,6 +18,7 @@ export const GESTURE_CLIP_CANDIDATES: Record<GestureName, readonly string[]> = {
   nod: ["nod"],
   point: ["point"],
   present: ["present"],
+  dance: ["dance"],
 };
 
 const LOOPING_CLIPS = new Set<string>([

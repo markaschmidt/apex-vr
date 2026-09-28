@@ -100,6 +100,10 @@ export function AgentNPC({
   const useRigged = Boolean(avatarUrl) && !rigFailed;
   const isVrm = avatarUrl?.toLowerCase().endsWith(".vrm") ?? false;
 
+  useEffect(() => {
+    setRigFailed(false);
+  }, [avatarUrl]);
+
   useFrame(({ clock }, delta) => {
     controller.tick(Math.min(delta, 1 / 20));
 

@@ -29,6 +29,7 @@ export const AgentClipSchema = z.enum([
   "wave",
   "nod",
   "present",
+  "dance",
 ]);
 export type AgentClip = z.infer<typeof AgentClipSchema>;
 
@@ -57,7 +58,7 @@ export type GazeHint = z.infer<typeof GazeHintSchema>;
 export const AvatarCueSchema = z.enum(["immediate", "speech_start", "speech_end"]);
 export type AvatarCue = z.infer<typeof AvatarCueSchema>;
 
-export const GestureNameSchema = z.enum(["wave", "nod", "point", "present"]);
+export const GestureNameSchema = z.enum(["wave", "nod", "point", "present", "dance"]);
 export type GestureName = z.infer<typeof GestureNameSchema>;
 
 export const SetPhaseIntentSchema = z.object({
